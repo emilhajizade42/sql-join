@@ -1,0 +1,109 @@
+CREATE DATABASE Company
+
+USE Company
+CREATE TABLE isci(
+id int primary key identity,
+SAA nvarchar(255),
+Vezifeid int,
+maas int
+);
+
+CREATE TABLE vezife(
+id int primary key identity,
+Vezife nvarchar(255),
+);
+
+CREATE TABLE filial(
+id int primary key identity,
+filial nvarchar(255),
+);
+
+CREATE TABLE mehsul(
+id int primary key identity,
+ad nvarchar(255),
+alis int,
+satis int ,
+);
+
+CREATE TABLE satis(
+id int primary key identity,
+mehsulid int,
+isiciid int,
+filalid int,
+satistarixi datetime 
+);
+
+INSERT INTO isci VALUES('name surname1',1,2000)
+INSERT INTO isci VALUES('name surname2',2,1000)
+INSERT INTO isci VALUES('name surname3',1,2500)
+INSERT INTO isci VALUES('name surname4',3,300)
+INSERT INTO isci VALUES('name surname5',3,200)
+
+
+INSERT INTO vezife VALUES('Front-end')
+INSERT INTO vezife VALUES('Back-end')
+INSERT INTO vezife VALUES('Full-Stack')
+
+INSERT INTO filial VALUES('BAKI')
+INSERT INTO filial VALUES('GENCE')
+INSERT INTO filial VALUES('SUMQAYIT')
+
+INSERT INTO mehsul VALUES('TV_1',500,1000)
+INSERT INTO mehsul VALUES('TV_2',1000,1500)
+INSERT INTO mehsul VALUES('TV_3',2500,3700)
+
+INSERT INTO satis VALUES(1,2,1,'2008-11-11 132344')
+INSERT INTO satis VALUES(2,1,3,'2008-11-09 154521')
+INSERT INTO satis VALUES(1,2,2,'2008-11-11 111201')
+INSERT INTO satis VALUES(3,3,1,'2008-10-29 145659')
+--mehsul isci filal
+
+--Task-1
+SELECT  FROM satis as s
+INNER JOIN mehsul as m
+ON s.mehsulid =m.id
+INNER JOIN filial as f
+ON f.id =s.filalid
+INNER JOIN isci as i
+ON i.id =s.isiciid
+
+--Task-2
+SELECT SUM(satis) as ALL_SELL FROM satis as s
+INNER JOIN mehsul as m
+ON s.mehsulid =m.id
+INNER JOIN filial as f
+ON f.id =s.filalid
+INNER JOIN isci as i
+ON i.id =s.isiciid
+
+--Task-3
+ SELECT MONTH(satistarixi) as ay,SUM(satis) as cem
+FROM satis as s
+INNER JOIN mehsul as m
+ON s.mehsulid =m.id
+group by year(satistarixi),month(satistarixi)
+
+--Task-4
+
+SELECT i.SAA,count (m.satis) as satilaan FROM satis as s
+FULL OUTER  JOIN mehsul as m
+ON s.mehsulid =m.id
+FULL OUTER  JOIN filial as f
+ON f.id =s.filalid
+FULL OUTER  JOIN isci as i
+ON i.id =s.isiciid
+GROUP BY i.SAA
+
+--Task-5
+ SELECT DAY(satistarixi)as gun ,SUM(satis) as cem
+FROM satis as s
+INNER JOIN mehsul as m
+ON s.mehsulid =m.id
+group by DAY(satistarixi)
+
+--Task-6
+ SELECT MONTh(satistarixi)as gun ,SUM(satis) as cem
+FROM satis as s
+INNER JOIN mehsul as m
+ON s.mehsulid =m.id
+group by MONTh(satistarixi)
